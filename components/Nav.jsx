@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { signIn, signOut, useSession, getProviders } from 'next-auth/react'
 const Nav = () => {
-    const isUserLoggedIn = true
+    const { data: session } = useSession()
     const [providers, setProviders] = useState(null)
     const [toggleDropdown, setToggleDropdown] = useState(false)
 
@@ -28,17 +28,18 @@ const Nav = () => {
             </Link>
             {/* Desktop Navigation */}
             <div className='sm:flex hidden'>
-                {isUserLoggedIn ? (<div className='flex gap-3 md:gap-5'>
+                {session?.user ? (<div className='flex gap-3 md:gap-5'>
                     <Link href="/create-prompt"
                         className='black_btn'>
                         Create Prompt
                     </Link>
                     <button type="button" onClick={signOut} className='outline_btn'>Sign Out</button>
                     <Link href="/profile">
-                        <Image src="/assets/images/user.png"
+                        <Image src={session?.user?.image}
                             width={37}
                             height={37}
                             className='rounded-full'
+                            alt="sjPrompts profile pic"
                         />
                     </Link>
                 </div>) : <>
@@ -49,11 +50,12 @@ const Nav = () => {
             </div>
             {/* Mobile Navigation */}
             <div className='sm:hidden flex relative'>
-                {isUserLoggedIn ? (<div className='flex '>
-                    <Image src="/assets/images/user.png"
+                {session?.user ? (<div className='flex '>
+                    <Image src={session?.user?.image}
                         width={37}
                         height={37}
                         className='rounded-full'
+                        alt="sjPrompts Side menue"
                         onClick={() => setToggleDropdown((prev) => !prev)} />
                     {toggleDropdown &&
                         <div className='dropdown'>
