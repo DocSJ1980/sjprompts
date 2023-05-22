@@ -19,6 +19,7 @@ const MyProfile = () => {
     }, [])
 
 
+
     const handleEdit = (post) => {
         router.push(`/update-prompt?id=${post._id}`)
     }
@@ -36,7 +37,6 @@ const MyProfile = () => {
             }
         }
     }
-
     return (
         <Profile
             name="My"
